@@ -36,7 +36,7 @@ return (
 });
 
 export default function App() {
-  const [count, setCount] = useState(5000);
+  const [count, setCount] = useState(20000);
   const [remote, setRemote] = useState(false);
   const [showFps, setShowFps] = useState(true);
   const [tab, setTab] = useState('home');
