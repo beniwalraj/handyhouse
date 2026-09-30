@@ -1,0 +1,21 @@
+appId: com.example.handyhouse
+---
+- launchApp:
+    stopApp: false
+- tapOn: "Shop"
+- repeat:
+    times: 30
+    commands:
+      - scroll
+- tapOn: "Search products"
+- eraseText: 50
+- inputText: "a"
+- eraseText: 5
+- inputText: "10"
+- eraseText: 5
+- inputText: "drill"
+- hideKeyboard
+- repeat:
+    times: 15
+    commands:
+      - scroll
