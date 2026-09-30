@@ -1,0 +1,1 @@
+{ "expo": { "name": "Handyhouse", "slug": "handyhouse", "version": "1.0.0", "orientation": "portrait", "userInterfaceStyle": "light", "ios": { "bundleIdentifier": "com.example.handyhouse" }, "android": { "package": "com.example.handyhouse" } } }

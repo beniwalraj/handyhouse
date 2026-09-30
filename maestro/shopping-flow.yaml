@@ -1,0 +1,15 @@
+appId: com.example.handyhouse
+---
+- launchApp:
+    stopApp: false
+- tapOn: "Shop"
+- tapOn: "Search products"
+- eraseText: 50
+- inputText: "drill"
+- hideKeyboard
+- scroll
+- scroll
+- scroll
+- tapOn: "Add to cart"
+- tapOn: "Cart.*"
+- assertVisible: "Total.*"
