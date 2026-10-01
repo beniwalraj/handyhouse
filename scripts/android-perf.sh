@@ -17,7 +17,7 @@ export PATH="$PATH:$HOME/.flashlight/bin"
 
 flashlight test \
   --bundleId "$PKG" \
-  --testCommand "maestro test maestro/stress-flow.yaml" \
+  --testCommand "maestro test maestro/shopping-flow.yaml" \
   --beforeEachCommand "adb shell am force-stop $PKG" \
   --iterationCount 5 \
   --duration 60000 \
