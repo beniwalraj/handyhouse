@@ -1,6 +1,6 @@
 # Handyhouse – React Native (Expo) perf-test app
 
-A Bunnings-style hardware shopping app (own name and branding) built to be installed and stress-tested.
+A hardware shopping app built to be installed and stress-tested.
 
 ## Run
     npm install
