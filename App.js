@@ -36,8 +36,8 @@ return (
 });
 
 export default function App() {
-  const [count, setCount] = useState(20000);
-  const [remote, setRemote] = useState(false);
+  const [count, setCount] = useState(Number(process.env.EXPO_PUBLIC_PRODUCT_COUNT) || 5000);
+  const [remote, setRemote] = useState(process.env.EXPO_PUBLIC_REMOTE_IMAGES === "1");
   const [showFps, setShowFps] = useState(true);
   const [tab, setTab] = useState('home');
   const [cat, setCat] = useState(null);

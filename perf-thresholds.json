@@ -1,0 +1,7 @@
+{
+  "skip_first_iteration": true,
+  "min_avg_fps": 53,
+  "max_pct_samples_below_45fps": 15,
+  "max_avg_js_cpu": 5,
+  "max_peak_ram_mb": 260
+}

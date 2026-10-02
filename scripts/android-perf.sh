@@ -22,4 +22,4 @@ flashlight test \
   --iterationCount 5 \
   --duration 60000 \
   --resultsFilePath flashlight-results.json \
-  --resultsTitle "Handyhouse 20k stress flow"
+  --resultsTitle "${RESULTS_TITLE:-Handyhouse perf run}"

@@ -2,6 +2,15 @@ name: Android perf (Flashlight)
 
 on:
   workflow_dispatch:
+    inputs:
+      remote_images:
+        description: "Load real product images over the network"
+        type: boolean
+        default: false
+      product_count:
+        description: "Number of products in the catalogue"
+        type: string
+        default: "20000"
   schedule:
     - cron: "0 2 * * *"
 
@@ -9,6 +18,10 @@ jobs:
   android-flashlight:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      EXPO_PUBLIC_REMOTE_IMAGES: ${{ inputs.remote_images && '1' || '0' }}
+      EXPO_PUBLIC_PRODUCT_COUNT: ${{ inputs.product_count || '20000' }}
+      RESULTS_TITLE: "Handyhouse ${{ inputs.product_count || '20000' }} products, images ${{ inputs.remote_images && 'on' || 'off' }}"
     steps:
       - uses: actions/checkout@v4
 
@@ -49,4 +62,9 @@ jobs:
         if: always()
         with:
           name: flashlight-results
-          path: flashlight-results.json
+          path: |
+            flashlight-results.json
+            /home/runner/.maestro/tests
+
+      - name: Check performance limits
+        run: python3 scripts/check-perf.py flashlight-results.json perf-thresholds${{ inputs.remote_images && '-images' || '' }}.json
