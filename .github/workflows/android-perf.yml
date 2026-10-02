@@ -64,6 +64,8 @@ jobs:
           name: flashlight-results
           path: |
             flashlight-results.json
+            logcat.txt
+            screen.png
             /home/runner/.maestro/tests
 
       - name: Check performance limits

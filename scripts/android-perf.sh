@@ -2,6 +2,9 @@
 # Runs inside the Android emulator (started by the CI workflow).
 set -euo pipefail
 
+# Save debug info (logs + screenshot) however the script ends
+trap 'adb logcat -d -t 3000 > logcat.txt || true; adb exec-out screencap -p > screen.png || true' EXIT
+
 PKG=com.example.handyhouse
 APK=android/app/build/outputs/apk/release/app-release.apk
 
