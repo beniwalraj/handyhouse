@@ -11,8 +11,8 @@ on:
         description: "Number of products in the catalogue"
         type: string
         default: "20000"
-  schedule:
-    - cron: "0 2 * * *"
+  # schedule:
+    # - cron: "0 2 * * *"
 
 jobs:
   android-flashlight:
