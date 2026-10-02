@@ -6,6 +6,14 @@ results_path, limits_path = sys.argv[1], sys.argv[2]
 d = json.load(open(results_path))
 lim = json.load(open(limits_path))
 
+bad = [i for i in d["iterations"] if i.get("status") != "SUCCESS"]
+if d.get("status") != "SUCCESS" or bad:
+    msg = f"Flashlight run FAILED: {len(bad)} of {len(d['iterations'])} iterations did not succeed, so the numbers are not trustworthy."
+    print(msg)
+    if os.environ.get("GITHUB_STEP_SUMMARY"):
+        open(os.environ["GITHUB_STEP_SUMMARY"], "a").write("### Perf check\n" + msg + "\n")
+    sys.exit(1)
+
 iters = d["iterations"]
 if lim.get("skip_first_iteration", True) and len(iters) > 1:
     iters = iters[1:]  # first run is a cold start
