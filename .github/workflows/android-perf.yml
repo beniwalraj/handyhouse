@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      EXPO_PUBLIC_REMOTE_IMAGES: ${{ inputs.remote_images && '1' || '0' }}
+      EXPO_PUBLIC_REMOTE_IMAGES: ${{ github.event.inputs.remote_images == 'true' && '1' || '0' }}
       EXPO_PUBLIC_PRODUCT_COUNT: ${{ inputs.product_count || '20000' }}
-      RESULTS_TITLE: "Handyhouse ${{ inputs.product_count || '20000' }} products, images ${{ inputs.remote_images && 'on' || 'off' }}"
+      RESULTS_TITLE: "Handyhouse ${{ inputs.product_count || '20000' }} products, images ${{ github.event.inputs.remote_images == 'true' && 'on' || 'off' }}"
     steps:
       - uses: actions/checkout@v4
 
@@ -67,4 +67,4 @@ jobs:
             /home/runner/.maestro/tests
 
       - name: Check performance limits
-        run: python3 scripts/check-perf.py flashlight-results.json perf-thresholds${{ inputs.remote_images && '-images' || '' }}.json
+        run: python3 scripts/check-perf.py flashlight-results.json perf-thresholds${{ github.event.inputs.remote_images == 'true' && '-images' || '' }}.json
