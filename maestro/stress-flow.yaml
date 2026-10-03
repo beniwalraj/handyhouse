@@ -2,6 +2,9 @@ appId: com.example.handyhouse
 ---
 - launchApp:
     stopApp: false
+- extendedWaitUntil:
+    visible: "Shop"
+    timeout: 60000
 - tapOn: "Shop"
 - repeat:
     times: 30
