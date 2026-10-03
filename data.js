@@ -1,4 +1,6 @@
 // Deterministic mock catalogue. Change PRODUCT_COUNT to scale the load.
+const IMG = Number(process.env.EXPO_PUBLIC_IMAGE_SIZE) || 300;
+
 export const CATEGORIES = [
   { id: 'tools', name: 'Power tools', icon: '🔧' },
   { id: 'garden', name: 'Garden', icon: '🌱' },
@@ -32,7 +34,7 @@ export function makeProducts(count) {
       rating: Math.round((3 + rnd() * 2) * 10) / 10,
       reviews: Math.floor(rnd() * 900),
       stock: Math.floor(rnd() * 60),
-      img: `https://picsum.photos/seed/hh${i}/300/300`,
+      img: `https://picsum.photos/seed/hh${i}/${IMG}/${IMG}`,
     };
   }
   return out;

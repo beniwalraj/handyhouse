@@ -58,6 +58,10 @@ jobs:
           disable-animations: true
           script: bash scripts/android-perf.sh
 
+      - name: Copy Maestro debug files (screenshots, logs)
+        if: always()
+        run: cp -r "$HOME/.maestro/tests" maestro-debug || true
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -66,7 +70,7 @@ jobs:
             flashlight-results.json
             logcat.txt
             screen.png
-            /home/runner/.maestro/tests
+            maestro-debug
 
       - name: Check performance limits
         run: python3 scripts/check-perf.py flashlight-results.json perf-thresholds${{ github.event.inputs.remote_images == 'true' && '-images' || '' }}.json
