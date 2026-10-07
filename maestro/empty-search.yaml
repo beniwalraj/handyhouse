@@ -1,0 +1,16 @@
+appId: com.example.handyhouse
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Shop"
+    timeout: 60000
+- tapOn:
+    id: "tab-shop"
+- tapOn:
+    id: "search-input"
+- inputText: "zzzzqqqq"
+- hideKeyboard
+- extendedWaitUntil:
+    visible: "0 results"
+    timeout: 10000

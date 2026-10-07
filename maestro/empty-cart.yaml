@@ -1,0 +1,10 @@
+appId: com.example.handyhouse
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Shop"
+    timeout: 60000
+- tapOn:
+    id: "tab-cart"
+- assertVisible: "Your cart is empty.*"

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   View, Text, FlatList, TextInput, Pressable, Image, ScrollView, Switch,
   StyleSheet, Platform, StatusBar, SafeAreaView,
@@ -14,7 +14,7 @@ const COUNTS = [1000, 5000, 20000];
 /* ---------- product card (memoised: main re-render hotspot) ---------- */
 const ProductCard = memo(function ProductCard({ item, onOpen, onAdd, remote }) {
 return (
-  <Pressable style={s.card} onPress={() => onOpen(item)} accessible={false}>
+  <Pressable style={s.card} onPress={() => onOpen(item)} accessible={false} testID={`product-${item.id}`}>
     <View style={s.thumb}>
       {remote ? <Image source={{ uri: item.img }} style={StyleSheet.absoluteFill} /> : <Text style={{ fontSize: 40 }}>{item.icon}</Text>}
     </View>
@@ -42,6 +42,12 @@ export default function App() {
   const [tab, setTab] = useState('home');
   const [cat, setCat] = useState(null);
   const [query, setQuery] = useState('');
+  const [input, setInput] = useState('');
+  // Debounce: only filter 250ms after the person stops typing
+  useEffect(() => {
+    const t = setTimeout(() => setQuery(input), 250);
+    return () => clearTimeout(t);
+  }, [input]);
   const [detail, setDetail] = useState(null);
   const [cart, setCart] = useState({});
   const listRef = useRef(null);
@@ -98,7 +104,7 @@ export default function App() {
 
   const Shop = (
     <View style={{ flex: 1 }}>
-      <TextInput style={s.search} placeholder="Search products" value={query} onChangeText={setQuery} />
+      <TextInput style={s.search} testID="search-input" placeholder="Search products" value={input} onChangeText={setInput} />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ maxHeight: 44 }} contentContainerStyle={{ paddingHorizontal: 8 }}>
         {[{ id: null, name: 'All' }, ...CATEGORIES].map((c) => (
           <Pressable key={String(c.id)} onPress={() => setCat(c.id)} style={[s.chip, cat === c.id && { backgroundColor: C.green }]}>
@@ -138,7 +144,7 @@ export default function App() {
       </View>
       <View style={s.sw}><Text>Remote images (network + decode load)</Text><Switch value={remote} onValueChange={setRemote} /></View>
       <View style={s.sw}><Text>Show FPS overlay</Text><Switch value={showFps} onValueChange={setShowFps} /></View>
-      <Pressable style={s.btnBig} onPress={() => { setCat(null); setQuery(''); setTab('shop'); toggleAuto(); }}><Text style={s.btnT}>{auto ? 'Stop auto-scroll' : 'Start auto-scroll on Shop'}</Text></Pressable>
+      <Pressable style={s.btnBig} onPress={() => { setCat(null); setQuery(''); setInput(''); setTab('shop'); toggleAuto(); }}><Text style={s.btnT}>{auto ? 'Stop auto-scroll' : 'Start auto-scroll on Shop'}</Text></Pressable>
       <Pressable style={[s.btnBig, { backgroundColor: C.red }]} onPress={spamCart}><Text style={s.btnT}>Add 200 items to cart</Text></Pressable>
       <Text style={s.h2}>Timings</Text>
       {log.map((l, i) => <Text key={i} style={{ fontVariant: ['tabular-nums'] }}>{l}</Text>)}
@@ -156,20 +162,20 @@ export default function App() {
 
       {detail && (
         <View style={s.modal}>
-          <Pressable onPress={() => setDetail(null)} style={{ padding: 14 }}><Text style={{ color: C.green, fontWeight: '700' }}>‹ Back</Text></Pressable>
+          <Pressable testID="detail-back" onPress={() => setDetail(null)} style={{ padding: 14 }}><Text style={{ color: C.green, fontWeight: '700' }}>‹ Back</Text></Pressable>
           <View style={[s.thumb, { height: 240, marginHorizontal: 14 }]}>{remote ? <Image source={{ uri: detail.img }} style={StyleSheet.absoluteFill} /> : <Text style={{ fontSize: 90 }}>{detail.icon}</Text>}</View>
           <View style={{ padding: 14 }}>
             <Text style={s.h2}>{detail.name}</Text>
             <Text style={s.mute}>SKU {detail.sku} · {detail.stock > 0 ? `${detail.stock} in stock` : 'Out of stock'}</Text>
             <Text style={[s.price, { fontSize: 26 }]}>{money(detail.price)}</Text>
-            <Pressable style={s.btnBig} onPress={() => add(detail)}><Text style={s.btnT}>Add to cart</Text></Pressable>
+            <Pressable testID="detail-add" style={s.btnBig} onPress={() => add(detail)}><Text style={s.btnT}>Add to cart</Text></Pressable>
           </View>
         </View>
       )}
 
       <View style={s.tabs}>
         {[['home', 'Home'], ['shop', 'Shop'], ['cart', `Cart (${cartCount})`], ['perf', 'Perf']].map(([k, l]) => (
-          <Pressable key={k} style={s.tab} onPress={() => { setDetail(null); setTab(k); }}><Text style={{ fontWeight: tab === k ? '800' : '400', color: tab === k ? C.green : C.mute }}>{l}</Text></Pressable>
+          <Pressable key={k} testID={`tab-${k}`} style={s.tab} onPress={() => { setDetail(null); setTab(k); }}><Text style={{ fontWeight: tab === k ? '800' : '400', color: tab === k ? C.green : C.mute }}>{l}</Text></Pressable>
         ))}
       </View>
     </SafeAreaView>

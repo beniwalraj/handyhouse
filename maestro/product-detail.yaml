@@ -1,0 +1,19 @@
+appId: com.example.handyhouse
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Shop"
+    timeout: 60000
+- tapOn:
+    id: "tab-shop"
+- tapOn:
+    id: "product-0"
+- assertVisible: "SKU I1000000.*"
+- tapOn:
+    id: "detail-add"
+- tapOn:
+    id: "detail-back"
+- tapOn:
+    id: "tab-cart"
+- assertVisible: "Total.*"
