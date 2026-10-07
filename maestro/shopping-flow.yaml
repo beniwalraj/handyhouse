@@ -1,4 +1,6 @@
 appId: com.example.handyhouse
+tags:
+  - functional
 ---
 - launchApp:
     stopApp: false
