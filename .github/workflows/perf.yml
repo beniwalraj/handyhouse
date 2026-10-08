@@ -20,6 +20,8 @@ jobs:
       - name: Generate native project and build Release for simulator
         run: |
           npx expo prebuild --platform ios
+          # Xcode 26 workaround: fmt 11.0.2 fails to compile with consteval
+          sed -i '' 's/\(define FMT_USE_CONSTEVAL\) 1/\1 0/' ios/Pods/fmt/include/fmt/base.h
           xcodebuild \
             -workspace ios/Handyhouse.xcworkspace \
             -scheme Handyhouse \
